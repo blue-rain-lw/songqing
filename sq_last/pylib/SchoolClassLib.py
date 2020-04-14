@@ -1,5 +1,5 @@
 import requests
-from wangxiao1.sq_last.config import g_vcode
+from config import g_vcode
 
 
 class SchoolClassLib:

@@ -1,0 +1,15 @@
+*** Settings ***
+Library  sq_last/pylib/SchoolClassLib
+
+*** Test Cases ***
+添加班级-tc000001
+    ${ret1}  addSchoolClass   2    班级1号    35
+    should be true            $ret1["retcode"]==0
+
+    #列出班级，验证一下
+    ${list1}   listSchoolClass
+    ${ret2}     evaluate    $list1["relist"][0]
+    should be true          $ret2["guade__name"]=="八年级"
+    should be true          $ret2["studentlimit"]==35
+
+    [Teardown]    deleteSchoolClass  $ret2["id"]
