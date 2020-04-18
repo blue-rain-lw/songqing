@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.7.3 on win32)" generated="20200418 23:35:09.718" rpa="false">
+<suite id="s1" name="Tc" source="E:\python\songqing\sq_last\tc">
+<suite id="s1-s1" name="空白数据" source="E:\python\songqing\sq_last\tc\空白数据">
+<kw name="Delete All School Classes" library="pylib.SchoolClassLib" type="setup">
+<msg timestamp="20200418 23:35:10.213" level="INFO">{ 'gradeid': None,
+  'retcode': 0,
+  'retlist': [ { 'grade__name': '七年级',
+                 'id': 381586,
+                 'invitecode': '3815861685892',
+                 'name': '三班',
+                 'studentlimit': 50,
+                 'studentnumber': 0,
+                 'teacherlist': []}]}
+{ 'gradeid': None,
+  'retcode': 0,
+  'retlist': [ { 'grade__name': '七年级',
+                 'id': 381586,
+                 'invitecode': '3815861685892',
+                 'name': '三班',
+                 'studentlimit': 50,
+                 'studentnumber': 0,
+                 'teacherlist': []}]}
+{'gradeid': 1, 'retcode': 0, 'retlist': []}
+{'gradeid': 1, 'retcode': 0, 'retlist': []}</msg>
+<status status="PASS" starttime="20200418 23:35:09.908" endtime="20200418 23:35:10.213"></status>
+</kw>
+<suite id="s1-s1-s1" name="D 1班" source="E:\python\songqing\sq_last\tc\空白数据\d_1班">
+<kw name="Add School Class" library="pylib.SchoolClassLib" type="setup">
+<arguments>
+<arg>1</arg>
+<arg>1班</arg>
+<arg>30</arg>
+</arguments>
+<msg timestamp="20200418 23:35:10.327" level="INFO">{'id': 381587, 'invitecode': '3815871274241', 'retcode': 0}</msg>
+<status status="PASS" starttime="20200418 23:35:10.220" endtime="20200418 23:35:10.328"></status>
+</kw>
+<suite id="s1-s1-s1-s1" name="修改班级" source="E:\python\songqing\sq_last\tc\空白数据\d_1班\修改班级.robot">
+<test id="s1-s1-s1-s1-t1" name="修改班级-000004">
+<kw name="List School Class" library="pylib.SchoolClassLib">
+<arguments>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${listclass}</var>
+</assign>
+<msg timestamp="20200418 23:35:10.420" level="INFO">{ 'gradeid': 1,
+  'retcode': 0,
+  'retlist': [ { 'grade__name': '七年级',
+                 'id': 381587,
+                 'invitecode': '3815871274241',
+                 'name': '1班',
+                 'studentlimit': 30,
+                 'studentnumber': 0,
+                 'teacherlist': []}]}</msg>
+<msg timestamp="20200418 23:35:10.420" level="INFO">${listclass} = {'gradeid': 1, 'retlist': [{'name': '1班', 'grade__name': '七年级', 'invitecode': '3815871274241', 'studentlimit': 30, 'studentnumber': 0, 'id': 381587, 'teacherlist': []}], 'retcode': 0}</msg>
+<status status="PASS" starttime="20200418 23:35:10.340" endtime="20200418 23:35:10.420"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>$listclass["retlist"][0]["id"]</arg>
+</arguments>
+<assign>
+<var>${classid}</var>
+</assign>
+<msg timestamp="20200418 23:35:10.425" level="INFO">${classid} = 381587</msg>
+<status status="PASS" starttime="20200418 23:35:10.421" endtime="20200418 23:35:10.426"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>$listclass["retlist"][0]["studentlimit"]</arg>
+</arguments>
+<assign>
+<var>${studentlimit}</var>
+</assign>
+<msg timestamp="20200418 23:35:10.427" level="INFO">${studentlimit} = 30</msg>
+<status status="PASS" starttime="20200418 23:35:10.426" endtime="20200418 23:35:10.427"></status>
+</kw>
+<kw name="Modify School Class" library="pylib.SchoolClassLib">
+<arguments>
+<arg>${classid}</arg>
+<arg>三班</arg>
+<arg>${studentlimit}</arg>
+</arguments>
+<assign>
+<var>${modifyclass}</var>
+</assign>
+<msg timestamp="20200418 23:35:10.510" level="INFO">{'retcode': 0}</msg>
+<msg timestamp="20200418 23:35:10.510" level="INFO">${modifyclass} = {'retcode': 0}</msg>
+<status status="PASS" starttime="20200418 23:35:10.428" endtime="20200418 23:35:10.510"></status>
+</kw>
+<kw name="Should Be True" library="BuiltIn">
+<doc>Fails if the given condition is not true.</doc>
+<arguments>
+<arg>$modifyclass["retcode"]==0</arg>
+</arguments>
+<status status="PASS" starttime="20200418 23:35:10.511" endtime="20200418 23:35:10.512"></status>
+</kw>
+<kw name="List School Class" library="pylib.SchoolClassLib">
+<arguments>
+<arg>1</arg>
+</arguments>
+<assign>
+<var>${newListClass}</var>
+</assign>
+<msg timestamp="20200418 23:35:10.609" level="INFO">{ 'gradeid': 1,
+  'retcode': 0,
+  'retlist': [ { 'grade__name': '七年级',
+                 'id': 381587,
+                 'invitecode': '3815871274241',
+                 'name': '三班',
+                 'studentlimit': 30,
+                 'studentnumber': 0,
+                 'teacherlist': []}]}</msg>
+<msg timestamp="20200418 23:35:10.609" level="INFO">${newListClass} = {'gradeid': 1, 'retlist': [{'name': '三班', 'grade__name': '七年级', 'invitecode': '3815871274241', 'studentlimit': 30, 'studentnumber': 0, 'id': 381587, 'teacherlist': []}], 'retcode': 0}</msg>
+<status status="PASS" starttime="20200418 23:35:10.513" endtime="20200418 23:35:10.609"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>$newListClass["retlist"][0]["name"]</arg>
+</arguments>
+<assign>
+<var>${newClassName}</var>
+</assign>
+<msg timestamp="20200418 23:35:10.611" level="INFO">${newClassName} = 三班</msg>
+<status status="PASS" starttime="20200418 23:35:10.610" endtime="20200418 23:35:10.611"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${newClassName}</arg>
+<arg>三班</arg>
+</arguments>
+<status status="PASS" starttime="20200418 23:35:10.612" endtime="20200418 23:35:10.612"></status>
+</kw>
+<status status="PASS" starttime="20200418 23:35:10.338" endtime="20200418 23:35:10.613" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20200418 23:35:10.328" endtime="20200418 23:35:10.617"></status>
+</suite>
+<status status="PASS" starttime="20200418 23:35:10.213" endtime="20200418 23:35:10.627"></status>
+</suite>
+<status status="PASS" starttime="20200418 23:35:09.754" endtime="20200418 23:35:10.637"></status>
+</suite>
+<status status="PASS" starttime="20200418 23:35:09.721" endtime="20200418 23:35:10.647"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0">Critical Tests</stat>
+<stat pass="1" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" id="s1" name="Tc">Tc</stat>
+<stat pass="1" fail="0" id="s1-s1" name="空白数据">Tc.空白数据</stat>
+<stat pass="1" fail="0" id="s1-s1-s1" name="D 1班">Tc.空白数据.D 1班</stat>
+<stat pass="1" fail="0" id="s1-s1-s1-s1" name="修改班级">Tc.空白数据.D 1班.修改班级</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
