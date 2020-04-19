@@ -1,7 +1,7 @@
 import requests
 from config import g_vcode
 from pprint import pprint
-
+from robot.libraries.BuiltIn import BuiltIn
 
 class  SchoolClassLib:
     URL = "http://ci.ytesting.com/api/3school/school_classes"
@@ -27,12 +27,12 @@ class  SchoolClassLib:
 
     def delete_school_class(self,classid):
         payload = {
-            'vcode'  : self.vcode,
+            'vcode': self.vcode,
         }
 
         url = '{}/{}'.format(self.URL,classid)
         response = requests.delete(url,data=payload)
-
+        print(response.json())
         return response.json()
 
 
@@ -56,7 +56,11 @@ class  SchoolClassLib:
         return bodyDict
 
 
-    def add_school_class(self,gradeid,name,studentlimit):
+    def add_school_class(self,gradeid,name,studentlimit,idSaveName=None):
+        '''
+        :param studentlimit: 班级的最大人数
+        :param idSaveName: 保存classid的名字
+        '''
         payload = {
             'vcode'  : self.vcode,
             'action' : 'add',
@@ -68,8 +72,11 @@ class  SchoolClassLib:
 
         bodyDict = response.json()
         pprint (bodyDict,indent=2)
-        return bodyDict
+        if idSaveName:
+            #set_global_variable函数传两个值，全局变量的名字和值
+            BuiltIn().set_global_variable("${%s}"%idSaveName,bodyDict["id"])
 
+        return bodyDict
 
     def delete_all_school_classes(self):
         # 先列出所有班级
@@ -87,7 +94,8 @@ class  SchoolClassLib:
         # 如果没有删除干净，通过异常报错给RF
         # 参考http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#reporting-keyword-status
         if rd['retlist'] != []:
-            raise  Exception("cannot delete all school classes!!")
+            raise  Exception("班级没有删除干净")
+
     def classlist_shoule_contain(self,
                                  classlist,
                                  classname,
@@ -95,7 +103,8 @@ class  SchoolClassLib:
                                  invitecode,
                                  studentlimit,
                                  studentnumber,
-                                 classid):
+                                 classid,
+                                 expectdetimes=1):
         item = {
             "name":classname,
             "grade__name":gradename,
@@ -105,15 +114,18 @@ class  SchoolClassLib:
             "id":classid,
             "teacherlist":[]
         }
+        occurTimes = classlist.count(item)
         pprint(item)
         print("----------------------------------")
         pprint(classlist)
-        if item not in classlist:
-            raise Exception("班级列表中没有该班级")
+        if occurTimes != int(expectdetimes):
+            raise Exception(f"班级列表中包含了{occurTimes}次，期望包含{expectdetimes}")
         #如果后面的条件成立，则不抛出异常
         # assert item in classlist,"班级列表中没有该班级"
 
 if __name__ == '__main__':
     scm = SchoolClassLib()
-    ret = scm.list_school_class(1)
+    #ret = scm.list_school_class(1)
+    #scm.delete_all_school_classes()
+    scm.list_school_class()
 
