@@ -1,10 +1,14 @@
 import requests
+from selenium import webdriver
 from config import g_vcode
 from pprint import pprint
 from robot.libraries.BuiltIn import BuiltIn
 import json
 class SchoolTeacher:
     URL = "http://ci.ytesting.com/api/3school/teachers"
+    def __init__(self):
+        self.wd = webdriver.Chrome()
+        self.wd.find
     def list_school_teacher(self,subjectid=None):
         '''
         :param subjectid: 班级ID
@@ -24,6 +28,7 @@ class SchoolTeacher:
         response = requests.get(self.URL,params=params)
         bodyDict = response.json()
         pprint(bodyDict, indent=2)
+
         return bodyDict
 
     def add_school_teacher(self,username,realname,subjectid,classlist,
